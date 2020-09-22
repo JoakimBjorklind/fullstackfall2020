@@ -1,22 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const Header = () => {
+const Header = (props) => {
   return (
     <div>
-      <p>Half Stack application development</p>
+      <p>{props.course}</p>
     </div>
   )
 }
 const Content = (props) => {
   console.log('props', props) 
-  //console.log(props.part2)
+  
 
   return (
     <div>
-      < Part1 name1={props.part1} ex1={props.exercises1}/>
-      < Part2 name2={props.part2} ex2={props.exercises2}/>
-      < Part3 name3={props.part3} ex3={props.exercises3}/>
+      < Part1 name1={props.parts[0].name} ex1={props.parts[0].exercises}/>
+      < Part2 name2={props.parts[1].name} ex2={props.parts[1].exercises}/>
+      < Part3 name3={props.parts[2].name} ex3={props.parts[2].exercises}/>
       
 
     </div>
@@ -48,10 +48,10 @@ const Part3 = (props) => {
 }
 
 const Total = (props) => {
-   
+  console.log(props) 
   return (
     <div>
-      <p>Number of exercise {props.total}</p>
+      <p>Number of exercise {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises}</p>
     </div>
   )
 }
@@ -59,28 +59,28 @@ const Total = (props) => {
 
 const App = () => {
   const course = 'Half Stack application development'
-  const part1 = {
-    name: 'Fundamentals of React',
-    exercises: 10
-  }
-  const part2 = {
-    name: 'Using props to pass data',
-    exercises: 7
-  }
-  const part3 = {
-    name: 'State of a component',
-    exercises: 14
-  }
+  const parts = [
+    {
+      name: 'Fundamentals of React',
+      exercises: 10
+    },
+    {
+      name: 'Using props to pass data',
+      exercises: 7
+    },
+    {
+      name: 'State of a component',
+      exercises: 14
+    }
+  ]
   
 
   return (
     <div>
       <Header course={course} />
-      <Content part1={part1.name} exercises1={part1.exercises} />
-      <Content part2={part2.name} exercises2={part2.exercises} />
-      <Content part3={part3.name} exercises3={part3.exercises}/>
+      <Content parts={parts} />
+      <Total parts={parts}/>
       
-      <Total total={part1.exercises + part2.exercises + part3.exercises}/>
       
       
       
