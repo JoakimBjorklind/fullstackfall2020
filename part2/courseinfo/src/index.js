@@ -17,7 +17,7 @@ const Content = (props) => {
       < Part1 name1={props.course.parts[0].name} ex1={props.course.parts[0].exercises}/>
       < Part2 name2={props.course.parts[1].name} ex2={props.course.parts[1].exercises}/>
       < Part3 name3={props.course.parts[2].name} ex3={props.course.parts[2].exercises}/>
-      
+      < Part4 name4={props.course.parts[3].name} ex4={props.course.parts[3].exercises}/>
 
     </div>
   )
@@ -46,12 +46,21 @@ const Part3 = (props) => {
     </div>
   )
 }
+const Part4 = (props) => {
+   
+  return (
+    <div> 
+      <p>  {props.name4} {props.ex4}</p>
+    </div>
+  )
+}
+
 
 const Total = (props) => {
   console.log(props) 
   return (
     <div>
-      <p>Number of exercise {props.course.parts[0].exercises + props.course.parts[1].exercises + props.course.parts[2].exercises}</p>
+      <p><b>Number of exercise {props.course.parts[0].exercises + props.course.parts[1].exercises + props.course.parts[2].exercises + props.course.parts[3].exercises}</b></p>
     </div>
   )
 }
@@ -62,6 +71,7 @@ const Course = ({course}) => {
     <div>
       <Header course={course} />
       <Content course={course} />
+      <Total course={course} />
       
     </div>
   )
@@ -88,7 +98,12 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
-      }
+      },
+      {
+        name: 'redux',
+        exercises: 11,
+        id: 4
+      },
     ]
   }
 
