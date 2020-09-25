@@ -42,19 +42,26 @@ const Statistics = (props) =>{
     return <p>No feedbakk given</p>
   } 
   return (
+    <div>
     <table>
-      <tbody>
-        <tr></tr>
+      <thead>
+      <tr>
       <td><Statistic text='good'/></td><td> <Statistic value={props.good}/></td>
-      
-      <Statistic text="neutral " value ={props.neutral} />
-      <Statistic text="bad " value ={props.bad} />
-      <Statistic text="all " value ={props.good + props.neutral + props.bad} />
-      <Statistic text="average " value ={(props.good-props.bad)/props.all} />
-      <Statistic text="posi " value ={(props.good/props.all)*100 + ' %'} />
+      </tr><tr>
+      <td><Statistic text="neutral " /></td><td> <Statistic value={props.neutral} /></td>
+      </tr><tr>
+      <td><Statistic text="bad " /></td><td> <Statistic value={props.bad} /></td>
+      </tr><tr>
+      <td><Statistic text="all " /></td><td> <Statistic value={props.good + props.neutral + props.bad} /></td>
+      </tr><tr>
+      <td><Statistic text="average " /></td><td> <Statistic value={(props.good-props.bad)/props.all} /></td>
+      </tr><tr>
+      <td><Statistic text="posi " /></td><td> <Statistic value={(props.good/props.all)*100 + ' %'} /></td>
       </tr>
-      </tbody>
-      </table>)
+      </thead>
+      </table>
+      </div>
+      )
 
   }
   const Button = (props) => (
@@ -63,10 +70,13 @@ const Statistics = (props) =>{
     </button>
   )
 
-  const Statistic = (props) => (
+  const Statistic = (props) => {
      
-    
-    <tr><td>{props.text}</td> <td>{props.value}</td></tr>
+    return (
+    <div>
+        {props.text}  {props.value}
+    </div>
     )
+  }
   
 ReactDOM.render(<App />, document.getElementById('root'))
