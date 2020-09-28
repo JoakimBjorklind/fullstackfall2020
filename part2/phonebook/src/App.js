@@ -15,11 +15,15 @@ const App = () => {
       important: Math.random() < 0.5,
       id: persons.length + 1,
     }
-  
-    setPersons(persons.concat(aObject))
+
+   
+  if(persons.some(a =>
+    a.content === newName)) {window.alert(`${newName} is already added to phonebook`)}
+  else { setPersons(persons.concat(aObject))
     setNewName('')
     console.log('button clicked', event.target)
   }
+}
 
   const handleaChange = (event) => {
     console.log(event.target.value)
