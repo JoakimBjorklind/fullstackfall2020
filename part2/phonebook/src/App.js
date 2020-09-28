@@ -2,15 +2,18 @@ import React, { useState } from 'react'
 
 const App = () => {
   const [ persons, setPersons ] = useState([
-    { content: 'Arto Hellas' }
+    { content: 'Arto Hellas', numb: '000' },
+    
   ]) 
   const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
 
   const addPers = (event) => {
     event.preventDefault()
     console.log('button clicked', event.target)
     const aObject = {
       content: newName,
+      numb: newNumber,
       date: new Date().toISOString(),
       important: Math.random() < 0.5,
       id: persons.length + 1,
@@ -23,13 +26,28 @@ const App = () => {
     setNewName('')
     console.log('button clicked', event.target)
   }
+  setPersons(persons.concat(aObject))
+  setNewName('')
+  setNewNumber('')
+
 }
+
+
+
+
+
+
 
   const handleaChange = (event) => {
     console.log(event.target.value)
     setNewName(event.target.value)
   }
 
+  const handlebChange = (event) => {
+    console.log(event.target.value)
+    setNewNumber(event.target.value)
+  
+  }
   return (
     <div>
       <h2>Phonebook</h2>
@@ -37,6 +55,7 @@ const App = () => {
       <form onSubmit={addPers}>
         <div>
           name: <input value = {newName} onChange={handleaChange}/>
+          <div>number: <input value = {newNumber} onChange={handlebChange}/></div>
         </div>
         <div>
           <button type="submit">add</button>
@@ -45,9 +64,10 @@ const App = () => {
       <h2>Numbers</h2>
       
         {persons.map(a => 
-          <div key={a.content}> {a.content}
+          <div key={a.content}>  {a.content} {a.numb}
           </div>
         )}
+
       
       
     </div>
