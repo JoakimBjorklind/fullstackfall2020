@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -17,21 +20,21 @@ const App = () => {
   const addPers = (event) => {
     event.preventDefault()
     console.log('button clicked', event.target)
-    const aObject = {
+    /*const aObject = {
       content: newName,
       numb: newNumber,
       date: new Date().toISOString(),
       important: Math.random() < 0.5,
       id: persons.length + 1,
-    }
+    }*/
 
    
   if(persons.some(a =>
-    a.content === newName)) {window.alert(`${newName} is already added to phonebook`)}
-  else { setPersons(persons.concat(aObject))
-    setNewName('')
-    console.log('button clicked', event.target)
-  }
+    a.content === newName)) {window.alert(`${newName} is already added to phonebook`)
+  return }
+  const aObject = {
+    content: newName,
+    numb: newNumber}
   setPersons(persons.concat(aObject))
   setNewName('')
   setNewNumber('')
@@ -64,31 +67,17 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
 
-      
-      <form onSubmit={addPers}>
-        <div>
-          filter shown with <input value = {newFilter} onChange={handlecChange}/>
-          
-        </div>
-        <h2>Add new </h2>
-        <div>
-          name: <input value = {newName} onChange={handleaChange}/>
-          <div>number: <input value = {newNumber} onChange={handlebChange}/></div>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      
-      {persons.filter(a => a.content.toLowerCase().includes(newFilter.toLowerCase())).map(a =>  <div key={a.content}>  {a.content} {a.numb}
-          </div>)}
-          
-          
-        
+      <Filter value={newFilter} handlecChange={handlecChange} />
 
-      
-      
+      <h3>Add a new</h3>
+
+      <PersonForm 
+        addPers={addPers} handlebChange={handlebChange} handleaChange={handleaChange} content={newName} numb={newNumber}
+      />
+
+      <h3>Numbers</h3>
+
+      <Persons persons={persons} newFilter={newFilter}/>
     </div>
   )
 }
