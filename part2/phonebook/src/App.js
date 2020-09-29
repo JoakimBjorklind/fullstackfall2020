@@ -1,12 +1,18 @@
 import React, { useState } from 'react'
 
 const App = () => {
-  const [ persons, setPersons ] = useState([
-    { content: 'Arto Hellas', numb: '000' },
-    
-  ]) 
+  const [persons, setPersons] = useState([
+    { content: 'Arto Hellas', numb: '040-123456' },
+    { content: 'Ada Lovelace', numb: '39-44-5323523' },
+    { content: 'Dan Abramov', numb: '12-43-234345' },
+    { content: 'Mary Poppendieck', numb: '39-23-6423122' }
+  ])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
+  const [newFilter, setNewFilter] = useState('')
+
+
+  
 
   const addPers = (event) => {
     event.preventDefault()
@@ -29,6 +35,7 @@ const App = () => {
   setPersons(persons.concat(aObject))
   setNewName('')
   setNewNumber('')
+ 
 
 }
 
@@ -48,11 +55,22 @@ const App = () => {
     setNewNumber(event.target.value)
   
   }
+  const handlecChange = (event) => {
+    console.log(event.target.value)
+    setNewFilter(event.target.value)
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
+
       
       <form onSubmit={addPers}>
+        <div>
+          filter shown with <input value = {newFilter} onChange={handlecChange}/>
+          
+        </div>
+        <h2>Add new </h2>
         <div>
           name: <input value = {newName} onChange={handleaChange}/>
           <div>number: <input value = {newNumber} onChange={handlebChange}/></div>
@@ -63,10 +81,11 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       
-        {persons.map(a => 
-          <div key={a.content}>  {a.content} {a.numb}
-          </div>
-        )}
+      {persons.filter(a => a.content.toLowerCase().includes(newFilter.toLowerCase())).map(a =>  <div key={a.content}>  {a.content} {a.numb}
+          </div>)}
+          
+          
+        
 
       
       
