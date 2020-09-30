@@ -1,18 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { content: 'Arto Hellas', numb: '040-123456' },
-    { content: 'Ada Lovelace', numb: '39-44-5323523' },
-    { content: 'Dan Abramov', numb: '12-43-234345' },
-    { content: 'Mary Poppendieck', numb: '39-23-6423122' }
-  ])
-  const [ newName, setNewName ] = useState('')
-  const [ newNumber, setNewNumber ] = useState('')
+  const [persons, setPersons] = useState([])
+  const [newName, setNewName ] = useState('')
+  const [newNumber, setNewNumber ] = useState('')
   const [newFilter, setNewFilter] = useState('')
+
+  const hook = () => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        setPersons(response.data)
+      })
+  }
+  
+  useEffect(hook, [])
 
 
   
@@ -22,22 +30,23 @@ const App = () => {
     console.log('button clicked', event.target)
     const aObject = {
       content: newName,
-      numb: newNumber
-      /*date: new Date().toISOString(),
+      numb: newNumber,
+      date: new Date().toISOString(),
       important: Math.random() < 0.5,
-      id: persons.length + 1,*/
+      id: persons.length + 1,
     }
-
+    
    
     if (persons.some(a =>
       a.name === newName)) {
     window.alert(`${newName} is already added to phonebook`)
-    return
-    }  
-     
-    setPersons(persons.concat(aObject))
-    setNewName('')
-    setNewNumber('')
+      }
+    else
+    {
+  setPersons(persons.concat(aObject))
+  setNewName('')
+  setNewNumber('')
+  }
   
 }
 
