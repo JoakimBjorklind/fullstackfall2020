@@ -38,7 +38,7 @@ const App = () => {
     
    
     if (persons.some(a =>
-      a.name === newName)) {
+      a.content === newName)) {
     window.alert(`${newName} is already added to phonebook`)
       }
     else
