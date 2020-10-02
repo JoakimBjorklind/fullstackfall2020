@@ -35,6 +35,12 @@ const App = () => {
       important: Math.random() < 0.5,
       id: persons.length + 1,
     }
+    axios
+    .post('http://localhost:3001/persons', aObject)
+    .then(response => {
+      setPersons(persons.concat(response.data))
+      setNewName('')
+    })
     
    
     if (persons.some(a =>
