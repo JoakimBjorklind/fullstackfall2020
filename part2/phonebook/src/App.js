@@ -10,7 +10,7 @@ const App = () => {
   const [newName, setNewName ] = useState('')
   const [newNumber, setNewNumber ] = useState('')
   const [newFilter, setNewFilter] = useState('')
-  const [errorMessage, setErrorMessage] = useState([ '', false])
+  
 
   useEffect(() => {
     servpersons
@@ -35,47 +35,55 @@ const App = () => {
       important: Math.random() < 0.5,
       id: persons.length + 1,
     }
+
+    if (persons.every((a) => a.content.toLowerCase() !== newName.toLowerCase()))
+    {
     servpersons
       .create(aObject)
-      .then(returnedNote => {
-        setPersons(persons.concat(returnedNote))
+      .then(returnedPers => {
+        setPersons(persons.concat(returnedPers))
         setNewName('')
+        setNewNumber('')
       })
-
+    }
     
     
    
-    if (persons.some(a =>
-      a.content === newName)) {
-    window.alert(`${newName} is already added to phonebook`)
-      }
-    else
+    
+    else if (window.confirm(`${newName} is already added to the phonebook,
+    replace the old number with a new one?`))
     {
-  setPersons(persons.concat(aObject))
-  setNewName('')
-  setNewNumber('')
-  }
+      updatePers(aObject)
+    }
+
+    
   
+  
+  
+}
+
+const updatePers = (person) => {
+  const identity = persons.find(w => w.content.toLowerCase() === person.content.toLowerCase()).id
+  person = {...person, id: identity}
+
+  servpersons
+  .update(identity, person)
+  .then(returnedPers => {
+    setPersons(persons.map(w => w.id !== identity ? w : returnedPers))
+    setNewName('')
+    setNewNumber('')
+})
 }
 
 const cancelPerson = (id) => {
   const person = persons.find(z => z.id === id)
   if(window.confirm(`Sure you wanna delete ${person.content} ?`))
-  servpersons
+  {servpersons
   .cancel(id)
-  .then(() => 
-  {setErrorMessage(`${person.content} was deleted from phonebook!`, false)
-  setTimeout(() => {
-    setErrorMessage(['', false])
-  }, 7000)
+  .then()
   setPersons(persons.filter(z => id !== z.id))
-}).catch( error => {
-  setErrorMessage([`Person ${person.name} has already been deleted from server`, true])
-  setTimeout(() => {
-    setErrorMessage(['', false])
-  }, 5000)
-  setPersons(persons.filter(z => id !== z.id))
-})
+  
+  }
     
 }
  
@@ -97,10 +105,7 @@ const cancelPerson = (id) => {
     setNewFilter(event.target.value)
   }
 
-  const handlePersonClicks = (event) => {
-    console.log(event.target.value)
-    setNewFilter(event.target.value)
-  }
+  
 
   return (
     <div>

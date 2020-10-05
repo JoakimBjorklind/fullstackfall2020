@@ -6,7 +6,7 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
-const create = aObject => {
+const create = (aObject) => {
   const request = axios.post(baseUrl, aObject)
   return request.then(response => response.data)
 }
