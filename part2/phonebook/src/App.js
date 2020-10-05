@@ -57,6 +57,15 @@ const App = () => {
   
 }
 
+const cancelPerson = (id) => {
+  servpersons
+  .cancel(id)
+  .then(response => {
+    const del = persons.filter(z => id !== z.id)
+    setPersons(del)
+  })
+}
+
   const handleaChange = (event) => {
     console.log(event.target.value)
     setNewName(event.target.value)
@@ -68,6 +77,11 @@ const App = () => {
   
   }
   const handlecChange = (event) => {
+    console.log(event.target.value)
+    setNewFilter(event.target.value)
+  }
+
+  const handlePersonClicks = (event) => {
     console.log(event.target.value)
     setNewFilter(event.target.value)
   }
@@ -86,7 +100,7 @@ const App = () => {
 
       <h3>Numbers</h3>
 
-      <Persons persons={persons} newFilter={newFilter}/>
+      <Persons persons={persons} newFilter={newFilter} cancelPerson={cancelPerson}/>
     </div>
   )
 }

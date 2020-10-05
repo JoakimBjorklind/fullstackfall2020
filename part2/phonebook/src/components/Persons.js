@@ -1,11 +1,12 @@
 import React from 'react';
 
-const Persons = ({persons, newFilter}) => {
+const Persons = ({persons, newFilter, cancelPerson}) => {
+    const filteringPersons = persons
+    .filter(z => z.content.toLowerCase().includes(newFilter.toLowerCase()))
     return(
     
     <div>
-        {persons.filter(a => a.content.toLowerCase().includes(newFilter.toLowerCase())).map(a =>  <div key={a.content}>  {a.content} {a.numb}
-          </div>)}
+        {filteringPersons.map(z => <li key={z.content}>{z.content} {z.numb}<button onClick={() => cancelPerson(z.id)}>delete</button></li>)}
           
     </div>
 

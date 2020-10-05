@@ -1,26 +1,6 @@
 {
   "persons": [
     {
-      "content": "Arto Hellas",
-      "numb": "040-123456",
-      "id": 1
-    },
-    {
-      "content": "Ada Lovelace",
-      "numb": "39-44-5323523",
-      "id": 2
-    },
-    {
-      "content": "Dan Abramov",
-      "numb": "12-43-234345",
-      "id": 3
-    },
-    {
-      "content": "Mary Poppendieck",
-      "numb": "39-23-6423122",
-      "id": 4
-    },
-    {
       "content": "hftr",
       "numb": "99",
       "date": "2020-10-02T09:56:49.491Z",
