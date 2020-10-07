@@ -105,6 +105,8 @@ const updatePers = (person) => {
     setTimeout(() => {
       setErrorMessage(null)
     }, 5000)
+    setNewName('')
+    setNewNumber('')
   }
   })
 }
