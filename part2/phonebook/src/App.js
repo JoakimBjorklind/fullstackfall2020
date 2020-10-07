@@ -4,12 +4,16 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import servpersons from './services/persons'
+//import Notification from './components/Notification'
+import './index.css'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName ] = useState('')
   const [newNumber, setNewNumber ] = useState('')
   const [newFilter, setNewFilter] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const [messageMessage, setmessageMessage] = useState('')
   
 
   useEffect(() => {
@@ -44,6 +48,15 @@ const App = () => {
         setPersons(persons.concat(returnedPers))
         setNewName('')
         setNewNumber('')
+        setmessageMessage(`Added the name ${returnedPers.content}`)
+        setTimeout(() => {
+          setmessageMessage(null)
+        }, 5000)
+      }).catch(err => {
+        setErrorMessage(err.response.data.error)
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
       })
     }
     
@@ -72,7 +85,28 @@ const updatePers = (person) => {
     setPersons(persons.map(w => w.id !== identity ? w : returnedPers))
     setNewName('')
     setNewNumber('')
-})
+
+    setErrorMessage(`Updated the name ${returnedPers.content}`)
+    setTimeout(() => {
+        setmessageMessage(null)
+    }, 5000)
+    
+}).catch(err => {
+  if (err.response.status === 400)
+  {
+    setErrorMessage(err.response.data.error)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
+  }
+  else {
+    setPersons(persons.filter(w => w.id !== identity))
+    setErrorMessage(`Information of ${person.content} has already been removed from the server`)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
+  }
+  })
 }
 
 const cancelPerson = (id) => {
@@ -80,8 +114,20 @@ const cancelPerson = (id) => {
   if(window.confirm(`Sure you wanna delete ${person.content} ?`))
   {servpersons
   .cancel(id)
-  .then()
-  setPersons(persons.filter(z => id !== z.id))
+  .then(ignored => {
+    setPersons(persons.filter(z => id !== z.id))
+
+    setmessageMessage(`${person.content} was deleted`)
+    setTimeout(() => {
+      setmessageMessage(null)
+  }, 2000)
+  }).catch(err => {
+    setErrorMessage(`${person.content} has already been removed from the server`)
+    setTimeout(() => {
+      setmessageMessage(null)
+  }, 2000)
+  })
+  
   
   }
     
@@ -109,7 +155,9 @@ const cancelPerson = (id) => {
 
   return (
     <div>
+      
       <h2>Phonebook</h2>
+      <Notification messageMessage={messageMessage} errorMessage={errorMessage} />
 
       <Filter value={newFilter} handlecChange={handlecChange} />
 
@@ -124,6 +172,29 @@ const cancelPerson = (id) => {
       <Persons persons={persons} newFilter={newFilter} cancelPerson={cancelPerson}/>
     </div>
   )
+}
+
+
+
+const Notification = ({ messageMessage, errorMessage }) => {
+  if (errorMessage === null && messageMessage === null) {
+    return null
+  }
+  else if (messageMessage !== null)
+  {
+    return (
+      <div className="messageMessage">
+        {messageMessage}
+      </div>
+    )
+  }
+  else if(errorMessage !== null)
+  {return (
+    <div className="errorMessage">
+      {errorMessage}
+    </div>
+  )
+  }
 }
 
 export default App
