@@ -4,7 +4,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import servpersons from './services/persons'
-//import Notification from './components/Notification'
+import Notification from './components/Notification'
 import './index.css'
 
 const App = () => {
@@ -12,8 +12,8 @@ const App = () => {
   const [newName, setNewName ] = useState('')
   const [newNumber, setNewNumber ] = useState('')
   const [newFilter, setNewFilter] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
-  const [messageMessage, setmessageMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [messageMessage, setmessageMessage] = useState(null)
   
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const App = () => {
       numb: newNumber,
       date: new Date().toISOString(),
       important: Math.random() < 0.5,
-      id: persons.length + 1,
+      //id: persons.length + 1,
     }
 
     if (persons.every((a) => a.content.toLowerCase() !== newName.toLowerCase()))
@@ -53,7 +53,7 @@ const App = () => {
           setmessageMessage(null)
         }, 5000)
       }).catch(err => {
-        setErrorMessage(err.response.data.error)
+        setErrorMessage(err.response.data.errorMessage)
         setTimeout(() => {
           setErrorMessage(null)
         }, 5000)
@@ -120,12 +120,12 @@ const cancelPerson = (id) => {
     setmessageMessage(`${person.content} was deleted`)
     setTimeout(() => {
       setmessageMessage(null)
-  }, 2000)
+  }, 5000)
   }).catch(err => {
     setErrorMessage(`${person.content} has already been removed from the server`)
     setTimeout(() => {
       setmessageMessage(null)
-  }, 2000)
+  }, 5000)
   })
   
   
@@ -176,25 +176,6 @@ const cancelPerson = (id) => {
 
 
 
-const Notification = ({ messageMessage, errorMessage }) => {
-  if (errorMessage === null && messageMessage === null) {
-    return null
-  }
-  else if (messageMessage !== null)
-  {
-    return (
-      <div className="messageMessage">
-        {messageMessage}
-      </div>
-    )
-  }
-  else if(errorMessage !== null)
-  {return (
-    <div className="errorMessage">
-      {errorMessage}
-    </div>
-  )
-  }
-}
+
 
 export default App

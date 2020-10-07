@@ -1,6 +1,6 @@
 import React from 'react'
-import './index.css'
-/*
+
+
 const Notification = ({ messageMessage, errorMessage }) => {
     if (errorMessage === null && messageMessage === null) {
       return null
@@ -21,6 +21,6 @@ const Notification = ({ messageMessage, errorMessage }) => {
     )
     }
   }
-  */
+  
 
   export default Notification
