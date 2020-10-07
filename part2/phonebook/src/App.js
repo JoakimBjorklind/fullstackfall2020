@@ -86,7 +86,7 @@ const updatePers = (person) => {
     setNewName('')
     setNewNumber('')
 
-    setErrorMessage(`Updated the name ${returnedPers.content}`)
+    setmessageMessage(`Updated the name ${returnedPers.content}`)
     setTimeout(() => {
         setmessageMessage(null)
     }, 5000)
@@ -94,7 +94,7 @@ const updatePers = (person) => {
 }).catch(err => {
   if (err.response.status === 400)
   {
-    setErrorMessage(err.response.data.error)
+    setErrorMessage(err.response.data.errorMessage)
     setTimeout(() => {
       setErrorMessage(null)
     }, 5000)
