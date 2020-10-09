@@ -33,14 +33,14 @@ const App = () => {
     event.preventDefault()
     console.log('button clicked', event.target)
     const aObject = {
-      content: newName,
-      numb: newNumber,
+      name: newName,
+      number: newNumber,
       date: new Date().toISOString(),
       important: Math.random() < 0.5,
       //id: persons.length + 1,
     }
 
-    if (persons.every((a) => a.content.toLowerCase() !== newName.toLowerCase()))
+    if (persons.every((a) => a.name.toLowerCase() !== newName.toLowerCase()))
     {
     servpersons
       .create(aObject)
@@ -48,7 +48,7 @@ const App = () => {
         setPersons(persons.concat(returnedPers))
         setNewName('')
         setNewNumber('')
-        setmessageMessage(`Added the name ${returnedPers.content}`)
+        setmessageMessage(`Added the name ${returnedPers.name}`)
         setTimeout(() => {
           setmessageMessage(null)
         }, 5000)
@@ -76,7 +76,7 @@ const App = () => {
 }
 
 const updatePers = (person) => {
-  const identity = persons.find(w => w.content.toLowerCase() === person.content.toLowerCase()).id
+  const identity = persons.find(w => w.name.toLowerCase() === person.name.toLowerCase()).id
   person = {...person, id: identity}
 
   servpersons
@@ -86,7 +86,7 @@ const updatePers = (person) => {
     setNewName('')
     setNewNumber('')
 
-    setmessageMessage(`Updated the name ${returnedPers.content}`)
+    setmessageMessage(`Updated the name ${returnedPers.name}`)
     setTimeout(() => {
         setmessageMessage(null)
     }, 5000)
@@ -101,7 +101,7 @@ const updatePers = (person) => {
   }
   else {
     setPersons(persons.filter(w => w.id !== identity))
-    setErrorMessage(`Information of ${person.content} has already been removed from the server`)
+    setErrorMessage(`Information of ${person.name} has already been removed from the server`)
     setTimeout(() => {
       setErrorMessage(null)
     }, 5000)
@@ -113,18 +113,18 @@ const updatePers = (person) => {
 
 const cancelPerson = (id) => {
   const person = persons.find(z => z.id === id)
-  if(window.confirm(`Sure you wanna delete ${person.content} ?`))
+  if(window.confirm(`Sure you wanna delete ${person.name} ?`))
   {servpersons
   .cancel(id)
   .then(ignored => {
     setPersons(persons.filter(z => id !== z.id))
 
-    setmessageMessage(`${person.content} was deleted`)
+    setmessageMessage(`${person.name} was deleted`)
     setTimeout(() => {
       setmessageMessage(null)
   }, 5000)
   }).catch(err => {
-    setErrorMessage(`${person.content} has already been removed from the server`)
+    setErrorMessage(`${person.name} has already been removed from the server`)
     setTimeout(() => {
       setmessageMessage(null)
   }, 5000)
@@ -166,7 +166,7 @@ const cancelPerson = (id) => {
       <h3>Add a new</h3>
 
       <PersonForm 
-        addPers={addPers} handlebChange={handlebChange} handleaChange={handleaChange} content={newName} numb={newNumber}
+        addPers={addPers} handlebChange={handlebChange} handleaChange={handleaChange} name={newName} number={newNumber}
       />
 
       <h3>Numbers</h3>
