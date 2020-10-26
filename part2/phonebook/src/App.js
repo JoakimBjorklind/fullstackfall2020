@@ -51,12 +51,12 @@ const App = () => {
         setmessageMessage(`Added the name ${returnedPers.name}`)
         setTimeout(() => {
           setmessageMessage(null)
-        }, 5000)
+        }, 6000)
       }).catch(err => {
         setErrorMessage(err.response.data.errorMessage)
         setTimeout(() => {
           setErrorMessage(null)
-        }, 5000)
+        }, 6000)
       })
     }
     
@@ -97,14 +97,14 @@ const updatePers = (person) => {
     setErrorMessage(err.response.data.errorMessage)
     setTimeout(() => {
       setErrorMessage(null)
-    }, 5000)
+    }, 6000)
   }
   else {
     setPersons(persons.filter(w => w.id !== identity))
     setErrorMessage(`Information of ${person.name} has already been removed from the server`)
     setTimeout(() => {
       setErrorMessage(null)
-    }, 5000)
+    }, 6000)
     setNewName('')
     setNewNumber('')
   }
