@@ -52,8 +52,8 @@ const App = () => {
         setTimeout(() => {
           setmessageMessage(null)
         }, 6000)
-      }).catch(err => {
-        setErrorMessage(err.response.data.errorMessage)
+      }).catch(error => {
+        setErrorMessage(error.response.data.error)
         setTimeout(() => {
           setErrorMessage(null)
         }, 6000)
@@ -91,10 +91,10 @@ const updatePers = (person) => {
         setmessageMessage(null)
     }, 5000)
     
-}).catch(err => {
-  if (err.response.status === 400)
+}).catch(e => {
+  if (e.response.status === 400)
   {
-    setErrorMessage(err.response.data.errorMessage)
+    setErrorMessage(e.response.data.error)
     setTimeout(() => {
       setErrorMessage(null)
     }, 6000)
