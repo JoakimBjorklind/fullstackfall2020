@@ -52,8 +52,8 @@ const App = () => {
         setTimeout(() => {
           setmessageMessage(null)
         }, 6000)
-      }).catch(error => {
-        setErrorMessage(error.response.data.error)
+      }).catch(e => {
+        setErrorMessage(e.response.data.error)
         setTimeout(() => {
           setErrorMessage(null)
         }, 6000)
@@ -123,7 +123,7 @@ const cancelPerson = (id) => {
     setTimeout(() => {
       setmessageMessage(null)
   }, 5000)
-  }).catch(err => {
+  }).catch(e => {
     setErrorMessage(`${person.name} has already been removed from the server`)
     setTimeout(() => {
       setmessageMessage(null)
