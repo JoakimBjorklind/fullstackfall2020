@@ -6,7 +6,7 @@ const Persons = ({persons, newFilter, cancelPerson}) => {
     return(
     
     <div>
-        {filteringPersons.map(z => <li key={persons.name}>{persons.name} {persons.number}<button onClick={() => cancelPerson(persons.id)}>delete</button></li>)}
+        {filteringPersons.map(persons => <li key={persons.name}>{persons.name} {persons.number}<button onClick={() => cancelPerson(persons.id)}>delete</button></li>)}
           
     </div>
 
