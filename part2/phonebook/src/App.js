@@ -53,7 +53,11 @@ const App = () => {
           setmessageMessage(null)
         }, 6000)
       }).catch(e => {
-        setErrorMessage(e.response.data.error)
+
+        const message = {
+          message: `${e.response.data.error}`,
+        }
+        setErrorMessage(message)
         setTimeout(() => {
           setErrorMessage(null)
         }, 6000)
