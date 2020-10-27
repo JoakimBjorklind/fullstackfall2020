@@ -2,11 +2,11 @@ import React from 'react';
 
 const Persons = ({persons, newFilter, cancelPerson}) => {
     const filteringPersons = persons
-    .filter(z => z.name.toLowerCase().includes(newFilter.toLowerCase()))
+    .filter(persons => persons.name.toLowerCase().includes(newFilter.toLowerCase()))
     return(
     
     <div>
-        {filteringPersons.map(z => <li key={z.name}>{z.name} {z.number}<button onClick={() => cancelPerson(z.id)}>delete</button></li>)}
+        {filteringPersons.map(z => <li key={persons.name}>{persons.name} {persons.number}<button onClick={() => cancelPerson(persons.id)}>delete</button></li>)}
           
     </div>
 

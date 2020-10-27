@@ -19,8 +19,8 @@ const App = () => {
   useEffect(() => {
     servpersons
       .getAll()
-      .then(initialNotes => {
-        setPersons(initialNotes)
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
   }, [])
 
