@@ -84,8 +84,20 @@ describe('total likes', () => {
         expect(result).toBe(5)
     })
 
-    test('of a bigger list is calculated right', () => {
+    test('of a list with multiple blogs is calculated like that', () => {
         const result = listHelper.totalLikes(listWithMultipleBlogs)
         expect(result).toBe(36)
+    })
+})
+
+describe('favorite blog', () => {
+    test('is the most liked blog', () => {
+        const result = listHelper.favoriteBlog(listWithMultipleBlogs)
+        const expectedBlog = {
+            title: "Canonical string reduction",
+            author: "Edsger W. Dijkstra",
+            likes: 12
+        }
+        expect(result).toEqual(expectedBlog)
     })
 })
