@@ -20,7 +20,7 @@ const listWithOneBlog = [
       }
     ]
 
-const listWithMultipleBlogs = [
+const blogs = [
         {
             _id: "5a422a851b54a676234d17f7",
             title: "React patterns",
@@ -85,19 +85,39 @@ describe('total likes', () => {
     })
 
     test('of a list with multiple blogs is calculated like that', () => {
-        const result = listHelper.totalLikes(listWithMultipleBlogs)
+        const result = listHelper.totalLikes(blogs)
         expect(result).toBe(36)
     })
 })
 
 describe('favorite blog', () => {
     test('is the most liked blog', () => {
-        const result = listHelper.favoriteBlog(listWithMultipleBlogs)
+        const result = listHelper.favoriteBlog(blogs)
         const expectedBlog = {
             title: "Canonical string reduction",
             author: "Edsger W. Dijkstra",
             likes: 12
         }
         expect(result).toEqual(expectedBlog)
+    })
+})
+
+describe('author', () => {
+    test('with most blogs is done the right way', () => {
+        const result = listHelper.mostBlogs(blogs)
+        const expectedAuthor = {
+            author: 'Robert C. Martin',
+            blogs: 3
+        }
+        expect(result).toEqual(expectedAuthor)
+    })
+
+    test('with most likes is done the right way', () => {
+        const result = listHelper.mostLikes(blogs)
+        const expectedAuthor = {
+            author: 'Edsger W. Dijkstra',
+            likes: 17
+        }
+        expect(result).toEqual(expectedAuthor)
     })
 })
