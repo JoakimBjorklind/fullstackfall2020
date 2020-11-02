@@ -11,6 +11,12 @@ const testBlogs = [
         url: "www.address.com",
         likes: 35
     },
+    {
+      title: 'test2',
+      author: 'The Second Name',
+      url: 'www.anotherOne.com',
+      likes: 44
+    }
    
 ]
 
@@ -35,6 +41,12 @@ beforeEach(async () => {
   test('all blogs are returned', async () => {
     const response = await api.get('/api/blogs')
   })
+
+  test('unique identifier named id', async () => {
+    const response = await api.get('/api/blogs')
+    expect(response.body[0].id).toBeDefined()
+  })
+
   
   afterAll(() => {
     mongoose.connection.close()
