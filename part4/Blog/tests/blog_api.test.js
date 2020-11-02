@@ -125,6 +125,20 @@ test('succeeds with status code 204 if id is valid', async () => {
 
   expect(blog).not.toContain(blogToDelete.title)
 })
+
+test('fails with status code 400 if data invalid', async () => {
+  const id = 'a444aa71b54a676234d17f8'
+
+  const newBlog = {
+    likes: 33
+  }
+
+  await api
+       .put(`/api/blogs/${id}`)
+       .send(newBlog)
+       .expect(400)
+
+})
   
   afterAll(() => {
     mongoose.connection.close()
