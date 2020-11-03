@@ -1,8 +1,10 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
+const bcrypt = require('bcrypt')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 const testBlogs = [
     {
@@ -139,6 +141,65 @@ test('fails with status code 400 if data invalid', async () => {
        .expect(400)
 
 })
+
+beforeEach(async () => {
+  await User.deleteMany({})
+  const passwordHash = await bcrypt.hash('sekret', 10)
+  const user = new User({ username: 'root', passwordHash })
+  await user.save()
+})
+
+test('creation succeeds with a fresh username', async () => {
+  const usersStart = await User.find({})
+  const usersAtStart = await usersStart.map(u => u.toJSON())
+
+  const newUser = {
+    username: 'myname',
+    name: 'My Name',
+    password: 'emanym',
+  }
+
+  await api
+    .post('/api/users')
+    .send(newUser)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const usersEnd = await User.find({})
+  const usersAtEnd = await usersEnd.map(u => u.toJSON())
+  expect(usersAtEnd.length).toBe(usersAtStart.length + 1)
+
+  const usernames = usersAtEnd.map(u => u.username)
+  expect(usernames).toContain(newUser.username)
+})
+
+test('creation fails with proper statuscode and message if username already in system', async () => {
+  const usersStart= await User.find({})
+  const usersAtStart = await usersStart.map(u => u.toJSON())
+
+  const newUser = {
+    username: 'root',
+    name: 'copycat',
+    password: 'tacypoc',
+}
+
+const result = await api
+.post('/api/users')
+.send(newUser)
+.expect(400)
+.expect('Content-Type', /application\/json/)
+
+expect(result.body.error).toContain('`username` to be unique')
+
+const usersEnd = await User.find({})
+const usersAtEnd = await usersEnd.map(u => u.toJSON())
+
+expect(usersAtEnd).toHaveLength(usersAtStart.length)
+
+})
+
+
+
   
   afterAll(() => {
     mongoose.connection.close()
