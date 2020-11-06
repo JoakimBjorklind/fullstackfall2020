@@ -1,11 +1,11 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpMiIsImlkIjoiNWZhNTJkMjRhMDdkNjAyZTQ0MmMxYzg1IiwiaWF0IjoxNjA0NjYwNTQzfQ.aOLZH0ymtQc-fu2Qx7lZByrhRhzqS4aFSaoOca3yqbU
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpMyIsImlkIjoiNWZhNTM5MWU3OGMyODkyMWQ0NjRmNmM3IiwiaWF0IjoxNjA0NjYzNjAwfQ.mEZD3Q2Pgomf6kgiVFjeZC2JrdOz1EOQzZuqBEdMYy0
 
 
 {
-    "title": "4.19",
-    "author": "Mee",
+    "title": "4.20",
+    "author": "Meee",
     "url": "www.test.com",
     "likes": "0"
 }
