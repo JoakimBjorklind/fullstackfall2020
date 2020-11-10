@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import './App.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -11,6 +13,8 @@ const App = () => {
   const [newBlogTitle, setNewBlogTitle] = useState('')
   const [newBlogAuthor, setNewBlogAuthor] = useState('')
   const [newBlogUrl, setNewBlogUrl] = useState('')
+  const [message, setMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -23,7 +27,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
-      //blogService.setToken(user.token)
+      blogService.setToken(user.token)
     }
   }, [])
 
@@ -43,9 +47,9 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      //setErrorMessage('wrong credentials')
+      setErrorMessage('wrong username or password')
       setTimeout(() => {
-        //setErrorMessage(null)
+        setErrorMessage(null)
       }, 5000)
     }
   }
@@ -61,13 +65,13 @@ const App = () => {
     .create(blogObject)
     .then(savedBlog => {
       setBlogs(blogs.concat(savedBlog))
-      //setMessage(`a new blog "${blogTitle}" by ${blogAuthor} added.`)
+      setMessage(`a new blog ${newBlogTitle} by ${newBlogAuthor} added.`)
       setNewBlogTitle('')
       setNewBlogAuthor('')
       setNewBlogUrl('')
-      /*setTimeout(() => {
+      setTimeout(() => {
         setMessage(null)
-      }, 6000)*/
+      }, 6000)
     })
 }
 
@@ -77,6 +81,7 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
+        <Notification message={message} errorMessage={errorMessage} />
         <form onSubmit={handleLogin}>
       <div>
         username
@@ -105,6 +110,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification message={message} errorMessage={errorMessage} />
       <p>{user.name} logged in 
       <button onClick={() => {
         window.localStorage.removeItem('loggedBlogappUser')
