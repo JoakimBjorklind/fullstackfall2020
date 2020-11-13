@@ -59,5 +59,5 @@ const Blog = ({ blog,  updateBlog, deleteBlog, user }) => {
       }
     </div>
   )
-} 
+}
 export default Blog
