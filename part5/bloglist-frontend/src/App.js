@@ -60,7 +60,8 @@ const App = () => {
       setPassword('')
       setTimeout(() => {
         setErrorMessage(null)
-      }, 5000)
+      }, 6000)
+  
     }
   }
 
@@ -92,7 +93,26 @@ const updateBlog = (id, blogObject) => {
 
 }
 
+const deleteBlog = (id) => {
+  const blog = blogs.find(b => b.id === id)
+  const confMessage = (window.confirm(`Remove blog ${blog.title} by ${blog.author} ?`))
+  if(confMessage) {
+    blogService
+    .erase(id)
+    .then(() => {
+      setBlogs(blogs.filter(b => id !== b.id))
+      setMessage(`${blog.title} was deleted!`)
+      setTimeout(() => {
+        setMessage(null)
+    }, 5000)
+  })
+  }
+  else {
+    return null
+  }
+}
 
+  
 
   if (user === null) {
     return (
@@ -127,7 +147,9 @@ const updateBlog = (id, blogObject) => {
           </div>
           {sortBlogs(blogs).map(blog =>
         <Blog key={blog.id} blog={blog}
-        updateBlog={updateBlog}  />
+        updateBlog={updateBlog} 
+        deleteBlog={deleteBlog}
+        user={user} />
       )}
     </div>
   )

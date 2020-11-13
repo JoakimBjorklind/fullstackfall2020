@@ -1,10 +1,7 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog,  updateBlog, user }) => {
-  const [showEverything, setShowEverything] = useState(false)
-
-  const hideShowEverything = { display: showEverything ? 'none' : '' }
-  const showShowEverything = { display: showEverything ? '' : 'none' }
+const Blog = ({ blog,  updateBlog, deleteBlog, user }) => {
+  const [visible, setVisible] = useState(false)
 
   const blogStyle = {
     paddingTop: 10,
@@ -26,19 +23,40 @@ const Blog = ({ blog,  updateBlog, user }) => {
     updateBlog(id, blogObject)
   }
 
+  const handleDeleteClick = () => {
+    deleteBlog(blog.id, blog.title, blog.author)
+  }
+
+  // this solution below works!!
   return (
-    <div style={blogStyle}>
-      <div style={hideShowEverything}>
+    <div style={blogStyle} className="blog" >
+      <div>
         {blog.title} by {blog.author}
-         <button onClick={() => setShowEverything(true)}>view</button>
+        <button onClick={() => setVisible(!visible)}>{visible === true ? 'hide' : 'view'}</button>
       </div>
-      <div style={showShowEverything}>
-        {blog.title} by {blog.author} 
-        <button onClick={() => setShowEverything(false)}>hide</button>
-        <div>{blog.url}</div>
-        <div>likes {blog.likes} <button onClick={() => {handleClick()}}>like</button></div> 
-       <div>{blog.user.name}</div>
-      </div>
+      {visible === true ?
+        <div>
+          <div>
+            {blog.url}
+          </div>
+          <div>
+            Likes {blog.likes}
+            <button onClick={() => {handleClick()}}>like</button>
+          </div>
+          <div>
+            {blog.user.name}
+          </div>
+          {user.name === blog.user.name ?
+            <div>
+              <button onClick={() => handleDeleteClick()}>Remove</button>
+            </div>
+            :
+            null
+          }
+        </div>
+        :
+        null
+      }
     </div>
   )
 } 
