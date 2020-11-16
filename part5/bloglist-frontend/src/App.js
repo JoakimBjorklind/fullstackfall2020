@@ -54,6 +54,10 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
+      setMessage(`${user.name} logged in`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 6000)
     } catch (exception) {
       setErrorMessage('wrong username or password')
       setUsername('')
