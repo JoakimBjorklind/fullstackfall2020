@@ -69,6 +69,21 @@ describe('Blog app', function () {
       cy.get('#like-button').click()
       cy.get('#likes').contains(1)
     })
+
+    it('A blog can be removed', function() {
+      cy.contains('New Blog').click()
+      cy.get('#title').type('a test blog')
+      cy.get('#author').type('tester')
+      cy.get('#url').type('www.code.com')
+      cy.get('#create-button').click()
+
+      cy.contains('view').click()
+
+      cy.contains('a test blog')
+      cy.get('#Remove-button').click()
+      cy.get('html').should('not.have.value', 'a test blog')
+
+    })
   })
 
 })
