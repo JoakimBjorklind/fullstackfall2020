@@ -1,14 +1,18 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { voteVote } from '../reducers/anecdoteReducer'
+import { displayNotification, undisplayNotification } from '../reducers/notificationReducer'
 
 const AnecdoteList = () => {
     const anecdotes = useSelector(state => state.anecdotes)
     const dispatch = useDispatch()
+    const undisplay = () => dispatch(undisplayNotification(''))
   
-    const vote = (id) => {
+    const vote = (id, content) => {
       //console.log('vote', id)
       dispatch(voteVote(id))
+      dispatch(displayNotification(`'${content}' just got a vote!`))
+      setTimeout(undisplay, 5000)
       
     }
   
@@ -29,7 +33,7 @@ const AnecdoteList = () => {
               </div>
               <div>
                 has {anecdote.votes}
-                <button onClick={() => vote(anecdote.id)}>vote</button>
+                <button onClick={() => vote(anecdote.id, anecdote.content)}>vote</button>
               </div>
             </div>
           )}</div>
