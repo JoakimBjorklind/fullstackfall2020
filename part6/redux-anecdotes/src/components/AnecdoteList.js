@@ -60,8 +60,12 @@ const mapStateToProps = (state) => {
   }
 }
 
+const mapDispatchToProps = {
+  voteVote, displayNotification
+}
+
 const ConnectedAnecdoteList = connect(
-  mapStateToProps, {voteVote, displayNotification}
+  mapStateToProps, mapDispatchToProps
 )(AnecdoteList)
 
 export default ConnectedAnecdoteList
