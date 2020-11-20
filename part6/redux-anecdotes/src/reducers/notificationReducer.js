@@ -1,9 +1,8 @@
 const notificationReducer =(state = null, action) => {
     switch (action.type) {
         case 'DISPLAY_NOTI':
-            let stateCopy = { ...state}
-            stateCopy = action.notification
-            return stateCopy
+           
+            return action.data
      
         case 'UNDISPLAY_NOTI':
                 return  null
@@ -12,10 +11,18 @@ const notificationReducer =(state = null, action) => {
         }
 }
 
-export const displayNotification = (notification) => {
-    return {
-        type: 'DISPLAY_NOTI',
-        notification
+export const displayNotification = (notification, seconds) => {
+    return async dispatch => {
+        dispatch({
+            type: 'DISPLAY_NOTI',
+            data: notification
+    })
+
+       setTimeout(() => {
+           dispatch({
+               type: 'UNDISPLAY_NOTI'
+           })
+       }, seconds * 1000)
     }
 }
 
