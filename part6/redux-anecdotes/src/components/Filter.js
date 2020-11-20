@@ -3,11 +3,10 @@ import { setFilter } from '../reducers/filterReducer'
 import { connect } from 'react-redux'
 
 const Filter = (props) => {
-  //const filter = useSelector(state => state.filter)
-  //const dispatch = useDispatch()
+  
 
   const handleChange = (event) => {
-    //dispatch(setFilter(event.target.value))
+    
     props.setFilter(event.target.value)
   }
   const style = {

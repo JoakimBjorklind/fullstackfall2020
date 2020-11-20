@@ -6,7 +6,7 @@ import { displayNotification } from '../reducers/notificationReducer'
 
 
 const AnecdoteForm = (props) => {
-  //const dispatch = useDispatch()
+  
   
 
 
@@ -15,8 +15,7 @@ const AnecdoteForm = (props) => {
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
     
-    //dispatch(createAnecdote(content))
-    //dispatch(displayNotification(`'${content}' was created`, 5))
+    
     props.createAnecdote(content)
     props.displayNotification(`'${content}' was created`, 5)
     

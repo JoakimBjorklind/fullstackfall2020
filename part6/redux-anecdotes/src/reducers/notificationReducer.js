@@ -23,10 +23,7 @@ export const displayNotification = (notification, seconds) => {
             data: notification
     })
 
-       /*setTimeout(() => {
-           dispatch({
-               type: 'UNDISPLAY_NOTI'
-           })*/
+       
         timeoutID = setTimeout(() => {
             dispatch(undisplayNotification())
             timeoutID = undefined
