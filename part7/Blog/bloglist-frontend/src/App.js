@@ -4,12 +4,12 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
 
-import blogService from './services/blogs'
+//import blogService from './services/blogs'
 import loginService from './services/login'
 import storage from './utils/storage'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
-import { initializeBlog, createBlogg } from './reducers/blogReducer'
+import { initializeBlog, createBlogg, likeBlog, removeBlog } from './reducers/blogReducer'
 
 const App = () => {
   //const [blogs, setBlogs] = useState([])
@@ -66,31 +66,34 @@ const App = () => {
 
   const createBlog = async (blog) => {
     try {
-      const newBlog = await blogService.create(blog)
+      //const newBlog = await blogService.create(blog)
       blogFormRef.current.toggleVisibility()
       //setBlogs(blogs.concat(newBlog))
-      dispatch(createBlogg(newBlog))
-      notifyWith(`a new blog '${newBlog.title}' by ${newBlog.author} added!`)
+      dispatch(createBlogg(blog))
+      notifyWith(`a new blog '${blog.title}' by ${blog.author} added!`)
     } catch(exception) {
       console.log(exception)
     }
   }
 
-  const handleLike = async () => {
-    /*const blogToLike = blogs.find(b => b.id === id)
+  const handleLike = async (id) => {
+    const blogToLike = blogs.find(b => b.id === id)
     const likedBlog = { ...blogToLike, likes: blogToLike.likes + 1, user: blogToLike.user.id }
-    await blogService.update(likedBlog)
-    setBlogs(blogs.map(b => b.id === id ?  { ...blogToLike, likes: blogToLike.likes + 1 } : b))*/
+    //await blogService.update(likedBlog)
+    //setBlogs(blogs.map(b => b.id === id ?  { ...blogToLike, likes: blogToLike.likes + 1 } : b))*
+    dispatch(likeBlog(likedBlog))
   }
 
-  const handleRemove = async () => {
-    /*const blogToRemove = blogs.find(b => b.id === id)
+  const handleRemove = async (id) => {
+    const blogToRemove = blogs.find(b => b.id === id)
     const ok = window.confirm(`Remove blog ${blogToRemove.title} by ${blogToRemove.author}`)
     if (ok) {
-      await blogService.remove(id)
-      setBlogs(blogs.filter(b => b.id !== id))
+      //await blogService.remove(id)
+      //setBlogs(blogs.filter(b => b.id !== id))
+      dispatch(removeBlog(blogToRemove.id))
+      notifyWith(`Deleted blog ${blogToRemove.title} by ${blogToRemove.author}`)
     }
-    notifyWith(`Deleted blog ${blogToRemove.title} by ${blogToRemove.author}`)*/
+    //notifyWith(`Deleted blog ${blogToRemove.title} by ${blogToRemove.author}`)*/
   }
 
   const handleLogout = () => {
