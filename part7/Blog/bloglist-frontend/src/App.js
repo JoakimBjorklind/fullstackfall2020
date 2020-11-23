@@ -16,7 +16,7 @@ import usersService from './services/users'
 import { initializeUsers } from './reducers/usersReducer'
 import {
   BrowserRouter as Router,
-  Switch, Route
+  Switch, Route, Link, useRouteMatch
 } from 'react-router-dom'
 // exercise 7.13 works!!
 
@@ -120,6 +120,11 @@ const App = () => {
     storage.logoutUser()
   }
 
+  const identify = useRouteMatch('/users/:id')
+  const identifyUser = identify 
+    ? users.find(user => user.id === (identify.params.id))
+    : null
+
   if ( !user ) {
     return (
       <div>
@@ -152,6 +157,30 @@ const App = () => {
 
   const byLikes = (b1, b2) => b2.likes - b1.likes
 
+  const User = () => {
+    if(!identifyUser) {
+      return null
+    }
+
+   
+    if (user !== null) {
+      const name = identifyUser.name
+
+      return (
+        <>
+          <h2>{name}</h2>
+          <b>added blogs</b>
+          <ul>
+            {identifyUser.blogs.map(blog => 
+              <li key={blog.id}>{blog.title}</li>
+            )}
+          </ul>
+        </>
+      )}
+    return null
+  }
+
+
   return (
     <div>
       <Router>
@@ -165,11 +194,18 @@ const App = () => {
 
       
         <Switch>
+          <Route path="/users/:id">
+            <User user={identifyUser}/>
+          </Route>
           <Route path="/users">
             <h3>Users</h3>
             <table>
-              <tr><th></th><th>blogs created</th></tr>
-              {users.map(user => <tr key={user.id}><td>{user.name}</td> <td>{user.blogs.length}</td></tr>)}
+              <thead>
+                <tr><th></th><th>blogs created</th></tr>
+              </thead>
+              <tbody>
+                {users.map(user => <tr key={user.id}><td><Link to={`/users/${user.id}`}>{user.name}</Link></td><td>{user.blogs.length}</td></tr>)}
+              </tbody>
             </table>
           </Route>        
           <Route path="/">

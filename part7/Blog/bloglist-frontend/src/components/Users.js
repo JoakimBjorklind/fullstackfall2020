@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+/*import React, { useEffect, useState } from 'react'
 import userService from '../services/users'
 import { Link } from 'react-router-dom'
 
@@ -34,4 +34,4 @@ const Users = () => {
   )
 }
 
-export default Users
+export default Users*/
