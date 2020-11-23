@@ -1,3 +1,4 @@
+/* eslint-disable no-trailing-spaces */
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
@@ -11,6 +12,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
 import { initializeBlog, createBlogg, likeBlog, removeBlog } from './reducers/blogReducer'
 import { loginUser, logoutUser } from './reducers/userReducer'
+import usersService from './services/users'
+import { initializeUsers } from './reducers/usersReducer'
+import {
+  BrowserRouter as Router,
+  Switch, Route
+} from 'react-router-dom'
+
+
+
 
 const App = () => {
   //const [blogs, setBlogs] = useState([])
@@ -24,6 +34,8 @@ const App = () => {
 
   const user = useSelector(state => state.user)
 
+  const users = useSelector(state => state.users)
+
   const blogFormRef = React.createRef()
 
   useEffect(() => {
@@ -32,6 +44,8 @@ const App = () => {
     )
   }, [])*/
     dispatch(initializeBlog())
+    usersService.getAll().then(users =>
+      dispatch(initializeUsers(users)))
   }, [dispatch])
 
   useEffect(() => {
@@ -140,27 +154,40 @@ const App = () => {
 
   return (
     <div>
-      <h2>blogs</h2>
+      <Router>
+        <h2>blogs</h2>
 
-      <Notification />
+        <Notification />
 
-      <p>
-        {user.name} logged in <button onClick={handleLogout}>logout</button>
-      </p>
+        <p>
+          {user.name} logged in <button onClick={handleLogout}>logout</button>
+        </p>
 
-      <Togglable buttonLabel='create new blog'  ref={blogFormRef}>
-        <NewBlog createBlog={createBlog} />
-      </Togglable>
-
-      {blogs.sort(byLikes).map(blog =>
-        <Blog
-          key={blog.id}
-          blog={blog}
-          handleLike={handleLike}
-          handleRemove={handleRemove}
-          own={user.username===blog.user.username}
-        />
-      )}
+      
+        <Switch>
+          <Route path="/users">
+            <h3>Users</h3>
+            <table>
+              <tr><th></th><th>blogs created</th></tr>
+              {users.map(user => <tr key={user.id}><td>{user.name}</td> <td>{user.blogs.length}</td></tr>)}
+            </table>
+          </Route>        
+          <Route path="/">
+            <Togglable buttonLabel='create new blog'  ref={blogFormRef}>
+              <NewBlog createBlog={createBlog} />
+            </Togglable>
+            {blogs.sort(byLikes).map(blog =>
+              <Blog
+                key={blog.id}
+                blog={blog}
+                handleLike={handleLike}
+                handleRemove={handleRemove}
+                own={user.username===blog.user.username}
+              />
+            )}
+          </Route>
+        </Switch>
+      </Router>
     </div>
   )
 }
