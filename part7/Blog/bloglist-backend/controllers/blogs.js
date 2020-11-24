@@ -64,4 +64,10 @@ router.post('/', async (request, response) => {
   response.status(201).json(savedBlog)
 })
 
+router.post('/:id/comments', async (request, response) => {
+  const comment = request.body.comment
+  const commentedBlog = await Blog.findByIdAndUpdate(request.params.id, { $push: { 'comments': comment } }, { new: true })
+  response.json(commentedBlog.toJSON())
+})
+
 module.exports = router

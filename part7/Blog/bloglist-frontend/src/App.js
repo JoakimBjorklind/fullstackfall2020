@@ -5,7 +5,7 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
 
-//import blogService from './services/blogs'
+import blogService from './services/blogs'
 import loginService from './services/login'
 import storage from './utils/storage'
 import { useDispatch, useSelector } from 'react-redux'
@@ -18,6 +18,7 @@ import {
   BrowserRouter as Router,
   Switch, Route, Link, useRouteMatch
 } from 'react-router-dom'
+import CommentForm from './components/CommentForm'
 // exercise 7.13 works!!
 
 
@@ -28,6 +29,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   //const [notification, setNotification] = useState(null)
+  //const [comment, setComment] = useState('')
   const dispatch = useDispatch()
 
   const blogs = useSelector(state => state.blogs)
@@ -92,6 +94,22 @@ const App = () => {
       notifyWith(`a new blog '${blog.title}' by ${blog.author} added!`)
     } catch(exception) {
       console.log(exception)
+    }
+  }
+
+  const mailComment = async (comment) => {
+    const id = identifyBlog.id
+    try {
+      const uusiKommentti = { 'comment': comment }
+      await blogService.comment(uusiKommentti, id)
+
+      notifyWith(`comments for blog id ${id} with the content ${comment}`)
+      dispatch(initializeBlog(blogs.map(b => b.id === id
+        ? { ...identifyBlog, comments: identifyBlog.comments.concat(comment) }
+        : b
+      )))
+    } catch(exe) {
+      console.log(exe)
     }
   }
 
@@ -196,6 +214,16 @@ const App = () => {
         <a href={identifyBlog.url}>{identifyBlog.url}</a>
         <div>{identifyBlog.likes} likes <button onClick={() => handleLike(identifyBlog.id)}>like</button></div>
         <div>added by {identifyBlog.author}</div>
+        <h3>comments</h3>
+        <CommentForm 
+          sendComment = {mailComment}
+          id = {identifyBlog.id}
+        />
+        <ul>
+          {identifyBlog.comments.map((kommentti, indeksi) =>
+            <li key={indeksi}>{kommentti}</li>
+          )}
+        </ul>
       </>
     )
 
