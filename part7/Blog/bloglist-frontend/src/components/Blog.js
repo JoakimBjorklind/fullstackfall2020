@@ -1,8 +1,6 @@
 import React from 'react'
-//import PropTypes from 'prop-types'
 
 const Blog = ({ blog }) => {
-  //const [visible, setVisible] = useState(false)
 
   const blogStyle = {
     paddingTop: 10,
@@ -12,7 +10,6 @@ const Blog = ({ blog }) => {
     marginBottom: 5
   }
 
-  //const label = visible ? 'hide' : 'view'
 
   return (
     <div style={blogStyle} className='blog'>
@@ -21,15 +18,5 @@ const Blog = ({ blog }) => {
   )
 }
 
-/*Blog.propTypes = {
-  blog: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-  }).isRequired,
-  handleLike: PropTypes.func.isRequired,
-  handleRemove: PropTypes.func.isRequired,
-  own: PropTypes.bool.isRequired
-}*/
 
 export default Blog

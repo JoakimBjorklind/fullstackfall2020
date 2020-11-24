@@ -19,17 +19,13 @@ import {
   Switch, Route, Link, useRouteMatch
 } from 'react-router-dom'
 import CommentForm from './components/CommentForm'
-// exercise 7.13 works!!
+// exercise 7.13-7.18 works!!
 
 
 
 const App = () => {
-  //const [blogs, setBlogs] = useState([])
-  //const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  //const [notification, setNotification] = useState(null)
-  //const [comment, setComment] = useState('')
   const dispatch = useDispatch()
 
   const blogs = useSelector(state => state.blogs)
@@ -41,10 +37,6 @@ const App = () => {
   const blogFormRef = React.createRef()
 
   useEffect(() => {
-    /*blogService.getAll().then(blogs =>
-      setBlogs(blogs)
-    )
-  }, [])*/
     dispatch(initializeBlog())
     usersService.getAll().then(users =>
       dispatch(initializeUsers(users)))
@@ -52,18 +44,10 @@ const App = () => {
 
   useEffect(() => {
     const user = storage.loadUser()
-    //setUser(user)
-    //}, [])
     dispatch(loginUser(user))
   }, [dispatch])
 
   const notifyWith = (message, type='success') => {
-    /*setNotification({
-      message, type
-    })
-    setTimeout(() => {
-      setNotification(null)
-    }, 5000)*/
     const viesti = { message, type }
     dispatch(setNotification(viesti, 5))
   }
@@ -87,9 +71,7 @@ const App = () => {
 
   const createBlog = async (blog) => {
     try {
-      //const newBlog = await blogService.create(blog)
       blogFormRef.current.toggleVisibility()
-      //setBlogs(blogs.concat(newBlog))
       dispatch(createBlogg(blog))
       notifyWith(`a new blog '${blog.title}' by ${blog.author} added!`)
     } catch(exception) {
@@ -104,9 +86,9 @@ const App = () => {
       await blogService.comment(uusiKommentti, id)
 
       notifyWith(`comments for blog id ${id} with the content ${comment}`)
-      dispatch(initializeBlog(blogs.map(b => b.id === id
+      dispatch(initializeBlog(blogs.map(blogi => blogi.id === id
         ? { ...identifyBlog, comments: identifyBlog.comments.concat(comment) }
-        : b
+        : blogi
       )))
     } catch(exe) {
       console.log(exe)
@@ -116,8 +98,6 @@ const App = () => {
   const handleLike = async (id) => {
     const blogToLike = blogs.find(b => b.id === id)
     const likedBlog = { ...blogToLike, likes: blogToLike.likes + 1, user: blogToLike.user.id }
-    //await blogService.update(likedBlog)
-    //setBlogs(blogs.map(b => b.id === id ?  { ...blogToLike, likes: blogToLike.likes + 1 } : b))*
     dispatch(likeBlog(likedBlog))
   }
 
@@ -125,12 +105,10 @@ const App = () => {
     const blogToRemove = blogs.find(b => b.id === id)
     const ok = window.confirm(`Remove blog ${blogToRemove.title} by ${blogToRemove.author}`)
     if (ok) {
-      //await blogService.remove(id)
-      //setBlogs(blogs.filter(b => b.id !== id))
       dispatch(removeBlog(blogToRemove.id))
       notifyWith(`Deleted blog ${blogToRemove.title} by ${blogToRemove.author}`)
     }
-    //notifyWith(`Deleted blog ${blogToRemove.title} by ${blogToRemove.author}`)*/
+    
   }
 
   const handleLogout = () => {

@@ -1,6 +1,6 @@
 import blogService from '../services/blogs'
 
-//const byLikes = (a1, a2) => a2.likes - a1.likes
+
 
 const blogReducer = (state = [], action) => {
   switch (action.type) {
