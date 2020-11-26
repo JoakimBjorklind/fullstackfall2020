@@ -65,9 +65,26 @@ router.post('/', async (request, response) => {
 })
 
 router.post('/:id/comments', async (request, response) => {
-  const comment = request.body.comment
-  const commentedBlog = await Blog.findByIdAndUpdate(request.params.id, { $push: { 'comments': comment } }, { new: true })
-  response.json(commentedBlog.toJSON())
+  //const comment = request.body.comment
+  //const commentedBlog = await Blog.findByIdAndUpdate(request.params.id, { $push: { 'comments': comment } }, { new: true })
+  //response.json(commentedBlog.toJSON())
+
+  const blog = await Blog.findById(request.params.id)
+
+  if(!blog) {
+    response.status(400).end()
+    return
+  }
+
+  const comments = blog.comments
+  console.log('comments: ', comments)
+
+  const update = blog.comments.push(request.body.comment)
+
+  await blog.update(update)
+  await blog.save()
+
+  response.json(blog)
 })
 
 module.exports = router
