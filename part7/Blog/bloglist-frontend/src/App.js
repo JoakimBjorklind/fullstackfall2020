@@ -19,6 +19,7 @@ import {
   Switch, Route, Link, useRouteMatch
 } from 'react-router-dom'
 import CommentForm from './components/CommentForm'
+import { Form, Table, Button, Nav, Navbar } from 'react-bootstrap'
 // exercise 7.13-7.18 works!!
 
 
@@ -133,25 +134,31 @@ const App = () => {
 
         <Notification />
 
-        <form onSubmit={handleLogin}>
-          <div>
-            username
-            <input
-              id='username'
-              value={username}
-              onChange={({ target }) => setUsername(target.value)}
-            />
-          </div>
-          <div>
-            password
-            <input
-              id='password'
-              value={password}
-              onChange={({ target }) => setPassword(target.value)}
-            />
-          </div>
-          <button id='login'>login</button>
-        </form>
+        <Form onSubmit={handleLogin}>
+          <Form.Group>
+            <div>
+              <Form.Label>username:</Form.Label>
+              <Form.Control
+              
+                id='username'
+                value={username}
+                onChange={({ target }) => setUsername(target.value)}
+              />
+            </div>
+            <div>
+              <Form.Label>password</Form.Label>
+              <Form.Control  
+
+                id='password'
+                value={password}
+                onChange={({ target }) => setPassword(target.value)}
+              />
+            </div>
+            <Button variant='primary' type='submit'>
+              login
+            </Button> 
+          </Form.Group>
+        </Form>
       </div>
     )
   }
@@ -213,8 +220,8 @@ const App = () => {
     marginRight: 10
   }
   const paddingButton = {
-    padding: 5,
-    marginTop: 10
+    padding: 3,
+    marginTop: 6
   }
 
 
@@ -222,9 +229,22 @@ const App = () => {
     <div>
       <Router>
         <div>
-          <Link style={padding} to="/">blogs</Link>
-          <Link style={padding} to="/users">users</Link>
-          {user.name} logged in <button style={paddingButton}  onClick={handleLogout}>logout</button> 
+          <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="mr-auto">
+                <Nav.Link href="#" as="span">
+                  <Link style={padding} to="/">blogs</Link>
+                </Nav.Link>
+                <Nav.Link href="#" as="span">
+                  <Link style={padding} to="/users">users</Link>
+                </Nav.Link>
+                <Nav.Link href="#" as="span">
+                  {user.name} logged in <Button style={paddingButton}  onClick={handleLogout}>logout</Button> 
+                </Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
         </div>
         <h2>blog app</h2>
 
@@ -238,14 +258,16 @@ const App = () => {
           </Route>
           <Route path="/users">
             <h3>Users</h3>
-            <table>
-              <thead>
-                <tr><th></th><th>blogs created</th></tr>
-              </thead>
-              <tbody>
-                {users.map(user => <tr key={user.id}><td><Link to={`/users/${user.id}`}>{user.name}</Link></td><td>{user.blogs.length}</td></tr>)}
-              </tbody>
-            </table>
+            <Table striped>
+              <table>
+                <thead>
+                  <tr><th></th><th>blogs created</th></tr>
+                </thead>
+                <tbody>
+                  {users.map(user => <tr key={user.id}><td><Link to={`/users/${user.id}`}>{user.name}</Link></td><td>{user.blogs.length}</td></tr>)}
+                </tbody>
+              </table>
+            </Table>
           </Route>
           <Route path="/blogs/:id">
             <BlogPage/>
